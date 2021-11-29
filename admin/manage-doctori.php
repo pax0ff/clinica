@@ -72,7 +72,6 @@ check_login();
                                         </div>
                                     </div>
                                     <div class="grid-body no-border">
-                              
                                             <table class="table table-hover no-more-tables">
                                                 <thead>
                                                     <tr>
@@ -84,7 +83,7 @@ check_login();
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                <?php $ret=mysqli_query($con,"select * from asistente");
+                                                <?php $ret=mysqli_query($con,"select * from personal");
 												$cnt=1;
 												while($row=mysqli_fetch_array($ret))
 												{

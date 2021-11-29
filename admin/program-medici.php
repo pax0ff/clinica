@@ -76,46 +76,33 @@ check_login();
                                 <table class="table table-hover no-more-tables">
                                     <thead>
                                     <tr>
-                                        <th>Etaj</th>
                                         <th>Cabinet</th>
-                                        <th>Doctor</th>
-                                        <?php
-                                        $start = strtotime('7:00');
-                                        $end = strtotime('20:00');
-                                        $range = array();
-                                        while ($start !== $end)
-                                        {
-                                        $start = strtotime('+60 minutes',$start);
-                                        $range[] = date('h:ia', $start);
-                                        //$range = json_encode($range);
-
-
-
-                                        }
-                                        $newRange = array();
-                                        $count = 0;
-
-                                        foreach($range as $k=>$v){
-                                            $newRange[$k] = array($v,$v);
-                                        }
-
-                                        //$range = json_encode($range);
-                                        echo "<th>".json_encode(array_values($newRange))."</th>";
-                                        ?>
+                                        <th>Data</th>
+                                        <th>Doctor/Asistenta</th>
+                                        <th>Ora intrare</th>
+                                        <th>Ora iesire</th>
+                                        <th>Asistenta</th>
+                                        <th>Ora intrare</th>
+                                        <th>Ora iesire</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <?php $ret=mysqli_query($con,"select a.id,a.etaj,a.denumire,b.nume,b.prenume from cabinet as a join personal as b on b.cabinet_id = a.id");
+                                    <?php $ret=mysqli_query($con,"select a.cabinet,a.data,a.doctor,a.ora_intrare,a.ora_iesire,b.asistenta,b.ora_intrare,b.ora_iesire from program_medical as a 
+join program_asistente as b on a.data = b.data");
 
                                     while($row=mysqli_fetch_array($ret))
                                     {
-                                        $_SESSION['ids']=$row['id'];
+
                                         ?>
                                         <tr>
-                                            <td><?php echo $row['etaj'];?></td>
-                                            <td><?php echo $row['denumire'];?></td>
-                                            <td><?php echo $row['nume'].' '.$row['prenume'];?></td>
-                                            <td></td>
+                                            <td><?php echo $row['cabinet'];?></td>
+                                            <td><?php echo $row['data'];?></td>
+                                            <td><?php echo $row['doctor']; ?></td>
+                                            <td><?php echo $row['ora_intrare']; ?></td>
+                                            <td><?php echo $row['ora_iesire']; ?></td>
+                                            <td><?php echo $row['asistenta']; ?></td>
+                                            <td><?php echo $row['ora_intrare']; ?></td>
+                                            <td><?php echo $row['ora_iesire']; ?></td>
                                         </tr>
                                     <?php  } ?>
                                     </tbody>
