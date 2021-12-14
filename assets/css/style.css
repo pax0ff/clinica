@@ -8117,3 +8117,7 @@ body.rtl .footer-widget {
   right: 0;
   left: auto;
 }
+
+.btn-primary {
+  background-color: red !important;
+}

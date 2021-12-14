@@ -132,7 +132,7 @@ header.masthead .bg-circle-4 {
 }
 
 .btn-primary {
-  background-color: #ee0979;
+  background-color: red !important;
   border-color: #ee0979;
 }
 

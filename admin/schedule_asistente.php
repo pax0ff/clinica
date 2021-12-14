@@ -46,7 +46,8 @@ if(isset($_POST['adauga'])) {
     }
     if (count($errors) == 0) {
         $data = $_POST['data_program'];
-        $insertQuery = mysqli_query($con,"INSERT INTO `program_asistente`(`id`, `asistenta`, `cabinet`, `data`, `ora_intrare`, `ora_iesire`) VALUES (NULL,'$doctor','$cabinet','$data','$ora_intrare','$ora_iesire')");
+        $insertQuery = mysqli_query($con,"INSERT INTO `program_asistente`(`id`, `asistenta`, `cabinet`, `data`, `ora_intrare_a`, `ora_iesire_a`) VALUES (NULL,'$doctor','$cabinet','$data','$ora_intrare','$ora_iesire')");
+
         if($insertQuery) {
             $errors[] = "Datele au fost adaugate cu succes";
         }
@@ -77,12 +78,9 @@ if(isset($_POST['adauga'])) {
 <body class="">
 <?php include("header.php");?>
 <div class="page-container row">
-
     <?php include("leftbar.php");?>
-
     <div class="clearfix"></div>
     <!-- END SIDEBAR MENU -->
-</div>
 </div>
 <div class="page-content">
     <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
@@ -198,7 +196,7 @@ if(isset($_POST['adauga'])) {
                     if (count($errors) > 0) {
                         foreach ($errors as $err) {
                             echo "<div class='alert alert-info' disabled='true'>.$err.</div>";
-                            //print_r($err . '<br />');
+                            print_r($err . '<br />');
                         }
                     }
 
@@ -226,8 +224,8 @@ if(isset($_POST['adauga'])) {
                                     <td><?php echo $row['cabinet']; ?></td>
                                     <td><?php echo $row['asistenta']; ?></td>
                                     <td><?php echo $row['data']; ?></td>
-                                    <td><?php echo $row['ora_intrare']; ?></td>
-                                    <td><?php echo $row['ora_iesire']; ?></td>
+                                    <td><?php echo $row['ora_intrare_a']; ?></td>
+                                    <td><?php echo $row['ora_iesire_a']; ?></td>
 
                                     <td>
                                         <!--<form name="abc" action="" method="post">

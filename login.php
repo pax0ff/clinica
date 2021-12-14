@@ -4,6 +4,8 @@ error_reporting(0);
 include("dbconnection.php");
 if(isset($_POST['login']))
 {
+
+
 $ret=mysqli_query($con,"SELECT * FROM user WHERE email='".$_POST['email']."' and password='".$_POST['password']."'");
 $num=mysqli_fetch_array($ret);
 if($num>0)
@@ -17,8 +19,8 @@ $time=date("h:i:sa");
 $tim = $time;
 $ip_address=$_SERVER['REMOTE_ADDR'];
 $geopluginURL='http://www.geoplugin.net/php.gp?ip='.$ip_address;
-$addrDetailsArr = unserialize(file_get_contents($geopluginURL)); 
-$city = $addrDetailsArr['geoplugin_city']; 
+$addrDetailsArr = unserialize(file_get_contents($geopluginURL));
+$city = $addrDetailsArr['geoplugin_city'];
 $country = $addrDetailsArr['geoplugin_countryName'];
 ob_start();
 system('ipconfig /all');
