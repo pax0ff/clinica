@@ -37,7 +37,7 @@ check_login();
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>     
 </head>
 <body class="">
-<?php include("header.php");?>
+<?php include("../header.php");?>
 <div class="page-container row"> 
   
       <?php include("leftbar.php");?>

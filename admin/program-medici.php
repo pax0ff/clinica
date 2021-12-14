@@ -32,15 +32,15 @@ $intervalOrarQuery = mysqli_query($con,"select * from interval_orar order by id 
 </head>
 <body class="">
 <?php include("header.php");?>
-<div class="page-container row">
+<div class="page-container row" style="height: auto !important">
 
-    <?php include("leftbar.php");?>
+    <?php //include("leftbar.php");?>
 
     <div class="clearfix"></div>
     <!-- END SIDEBAR MENU -->
 </div>
 </div>
-<div class="page-content">
+<div class="page-content" style="margin-left: 0 !important">
     <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
     <div id="portlet-config" class="modal hide">
         <div class="modal-header">
@@ -141,9 +141,9 @@ join program_asistente as b on a.data = b.data order by a.data DESC");
                                             $intrare = hourTransform($ora1);
                                             $iesire = hourTransform($ora2);
 
-                                            for($i=8;$i<=20;$i++){
+                                            for($i=8;$i<20;$i++){
                                                 if($intrare<=$i && $i <= $iesire)
-                                                    echo "<td style=background:red;opacity:.2></td>";
+                                                    echo "<td style=background:red;opacity:.6></td>";
                                                 else {
                                                     echo "<td style=background:white;opacity:.2></td>";
                                                 }
@@ -151,15 +151,15 @@ join program_asistente as b on a.data = b.data order by a.data DESC");
                                             ?>
 
                                         </tr>
-                                        <td><b style="color:blue;">Asistenta: </b><?php echo $row['asistenta']; ?></td>
+                                        <td><b style="color:blue;"> Asistenta:</b><?php //echo $row['asistenta']; ?></td>
                                         <?php
                                         $ora1 = $row['ora_intrare_a'];
                                         $ora2 = $row['ora_iesire_a'];
                                         $intrareA = hourTransform($ora1);
                                         $iesireA = hourTransform($ora2);
-                                        for($i=8;$i<=20;$i++){
+                                        for($i=8;$i<20;$i++){
                                             if($intrareA<=$i && $i <= $iesireA)
-                                                echo "<td style=background:blue;opacity:.2></td>";
+                                                echo "<td style=background:blue;opacity:.6;color:#fff>".$row['asistenta']."</td>";
                                             else {
                                                 echo "<td style=background:white;opacity:.2></td>";
                                             }

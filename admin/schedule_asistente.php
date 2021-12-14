@@ -10,7 +10,7 @@ $cabinete = mysqli_query($con,"select denumire from cabinet order by denumire");
 
 function getHours() {
     $a = '07:00';
-    $b = '24:00';
+    $b = '20:00';
 
     $period = new DatePeriod(
         new DateTime($a),
@@ -81,6 +81,7 @@ if(isset($_POST['adauga'])) {
     <?php include("leftbar.php");?>
     <div class="clearfix"></div>
     <!-- END SIDEBAR MENU -->
+</div>
 </div>
 <div class="page-content">
     <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
@@ -211,6 +212,7 @@ if(isset($_POST['adauga'])) {
                                 <th>Data</th>
                                 <th>Ora intrare</th>
                                 <th>Ora iesire</th>
+                                <th>Editeaza</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -228,10 +230,10 @@ if(isset($_POST['adauga'])) {
                                     <td><?php echo $row['ora_iesire_a']; ?></td>
 
                                     <td>
-                                        <!--<form name="abc" action="" method="post">
-                                            <a href="edit-asistenta.php?id=<?php //echo $row['id'];?>" class="btn btn-primary btn-xs btn-mini">Editeaza </a>
-                                            <button type="button" class="btn btn-danger btn-xs btn-mini">Sterge </button>
-                                        </form>-->
+                                        <form name="abc" action="" method="post">
+                                            <a href="edit-cabinet-asistenta.php?id=<?php echo $row['id'];?>" class="btn btn-primary btn-xs btn-mini">Editeaza </a>
+                                            
+                                        </form>
                                     </td>
                                 </tr>
                             <?php }}?>

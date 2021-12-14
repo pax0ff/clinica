@@ -3,13 +3,13 @@ session_start();
 include("dbconnection.php");
 include("checklogin.php");
 check_login();
-error_reporting(0);
 
+$filtru='';
 if(isset($_GET['filtru'])){
     $filtru = $_GET['filtru'];
 
 }
-
+$intervalOrarQuery = mysqli_query($con,"select * from interval_orar order by id ASC");
 ?>
 <!DOCTYPE html>
 <html>
@@ -70,8 +70,7 @@ if(isset($_GET['filtru'])){
                 <div class="row">
                     <div class="col-md-12">
                         <div class="grid simple ">
-                            <div class="grid-title no-border">
-
+                            <div class="grid-title">
                                 <div class="row">
                                     <form method="GET" action="program-medici.php">
                                         <div class="col-lg-4 col-md-4 p-t-15">
@@ -92,23 +91,28 @@ if(isset($_GET['filtru'])){
                                     <a href="javascript:;" class="remove"></a>
                                 </div>
                             </div>
-                            <div class="grid-body no-border">
-
+                            <div class="grid-body ">
                                 <table class="table table-hover no-more-tables">
                                     <thead>
-                                    <tr>
-                                        <th>Cabinet</th>
-                                        <th>Data</th>
-                                        <th>Doctor/Asistenta</th>
-                                        <th>Ora intrare</th>
-                                        <th>Ora iesire</th>
+                                        <tr>
+                                            <th>Cabinet</th>
+                                            <th>Data</th>
+                                            <th>Medic</th>
+                                            <?php
+                                                while($rows=mysqli_fetch_assoc($intervalOrarQuery))
+                                                {
+                                                    $hour = $rows['ora'];
 
-                                    </tr>
+
+                                                    echo '<th id="hour">'.$hour.'</th>';
+                                                }
+                                                ?>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                     <?php
-                                    //if(isset($filtru)) {
-                                    switch($filtru) {
+                                    switch($filtru)
+                                    {
                                         case 'currentDay':
                                             $query = mysqli_query($con,"select a.cabinet,a.data,a.doctor,a.ora_intrare,a.ora_iesire,b.asistenta,b.ora_intrare_a,b.ora_iesire_a from program_medical as a 
 join program_asistente as b on a.data = b.data and a.data=CURRENT_DATE()"); break;
@@ -122,23 +126,46 @@ join program_asistente as b on a.data = b.data and a.data >= DATE_ADD(CURDATE(),
                                         default: $query=mysqli_query($con,"select a.cabinet,a.data,a.doctor,a.ora_intrare,a.ora_iesire,b.asistenta,b.ora_intrare_a,b.ora_iesire_a from program_medical as a 
 join program_asistente as b on a.data = b.data order by a.data DESC");
                                     }
-                                    //$ret=mysqli_query($con,"select a.cabinet,a.data,a.doctor,a.ora_intrare,a.ora_iesire,b.asistenta,b.ora_intrare_a,b.ora_iesire_a from program_medical as a
-//join program_asistente as b on a.data = b.data");
+
 
                                     while($row=mysqli_fetch_array($query))
                                     {
-
                                         ?>
                                         <tr>
                                             <td rowspan="2"><?php echo $row['cabinet'];?></td>
                                             <td rowspan="2"><?php echo $row['data'];?></td>
                                             <td><b style="color:red">Doctor:</b> <?php echo $row['doctor']; ?></td>
-                                            <td> <?php echo $row['ora_intrare']; ?></td>
-                                            <td><?php echo $row['ora_iesire']; ?></td>
+                                            <?php
+                                            $ora1 = $row['ora_intrare'];
+                                            $ora2 = $row['ora_iesire'];
+                                            $intrare = hourTransform($ora1);
+                                            $iesire = hourTransform($ora2);
+
+                                            for($i=8;$i<20;$i++){
+                                                if($intrare<=$i && $i <= $iesire)
+                                                    echo "<td style=background:red;opacity:.6></td>";
+                                                else {
+                                                    echo "<td style=background:green;opacity:.2></td>";
+                                                }
+                                            }
+                                            ?>
+
                                         </tr>
-                                            <td><b style="color:blue;">Asistenta: </b><?php echo $row['asistenta']; ?></td>
-                                            <td><?php echo $row['ora_intrare_a']; ?></td>
-                                            <td><?php echo $row['ora_iesire_a']; ?></td>
+                                        <td><b style="color:blue;">Asistenta: </b><?php echo $row['asistenta']; ?></td>
+                                        <?php
+                                        $ora1 = $row['ora_intrare_a'];
+                                        $ora2 = $row['ora_iesire_a'];
+                                        $intrareA = hourTransform($ora1);
+                                        $iesireA = hourTransform($ora2);
+                                        for($i=8;$i<20;$i++){
+                                            if($intrareA<=$i && $i <= $iesireA)
+                                                echo "<td style=background:blue;opacity:.6></td>";
+                                            else {
+                                                echo "<td style=background:green;opacity:.2></td>";
+                                            }
+                                        }
+                                        ?>
+
                                         </tr>
                                     <?php  } ?>
                                     </tbody>

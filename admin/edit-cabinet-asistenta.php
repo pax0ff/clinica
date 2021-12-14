@@ -3,18 +3,59 @@ session_start();
 include("checklogin.php");
 check_login();
 include("dbconnection.php");
+$errors = array();
 if(isset($_POST['update']))
 {
-$etaj=$_POST['etaj'];
-$denumire = $_POST['denumire'];
+    if(isset($_POST['asistenta']) && (!empty($_POST['asistenta']))) {
+        $asist= $_POST['asistenta'];
+    }
+    else {
+        $errors[] = "Asistenta trebuie setata";
+    }
+    if(isset($_POST['cabinet']) && (!empty($_POST['cabinet']))) {
+
+        $cabinet = $_POST['cabinet'];
+    }
+    else {
+        $errors[] = "Cabinetul trebuie setat";
+    }
+    if(isset($_POST['data']) && (!empty($_POST['data']))) {
+
+        $data = $_POST['data'];
+    }
+    else {
+        $errors[] = "Data trebuie setata";
+    }
+    if(isset($_POST['ora_intrare_a']) && (!empty($_POST['ora_intrare_a']))) {
+
+        $oraInt = $_POST['ora_intrare_a'];
+    }
+    else {
+        $errors[] = "Ora de intrare trebuie setata";
+    }
+    if(isset($_POST['ora_iesire_a']) && (!empty($_POST['ora_iesire_a']))) {
+        $oraIes = $_POST['ora_iesire_a'];
+    }
+    else {
+        $errors[] = "Ora de iesire trebuie setata";
+    }
+
 $cabinetid=$_GET['id'];
-  $ret=mysqli_query($con,"update cabinet set etaj='$etaj', denumire='$denumire' where id='$cabinetid'");
-  //print_r($ret);
-	if($ret)
+
+  $ret=mysqli_query($con,"update program_asistente set asistenta='$asist',cabinet='$cabinet',data='$data',ora_intrare_a='$oraInt',ora_iesire_a='$oraIes' where id='$cabinetid'");
+  //print_r($ret);die();
+	if($ret && empty($errors))
 	{
-	echo "<script>alert('Date salvate');</script>";	
-	}
-	}
+  echo "<script>alert('Date salvate');</script>";	
+  echo "<script>window.location.href = 'schedule_asistente.php';</script>";
+    }
+    else {
+        foreach ($errors as $err) {
+            echo $err;
+        }
+    }
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -61,23 +102,47 @@ $cabinetid=$_GET['id'];
     <div class="clearfix"></div>
     <div class="content">  
 		<div class="page-title">
-         <?php $rt=mysqli_query($con,"select * from cabinet where id='".$_GET['id']."'");
+         <?php $rt=mysqli_query($con,"select * from program_asistente where id='".$_GET['id']."'");
 			  while($rw=mysqli_fetch_array($rt))
 			  {?>	
-			<h3>Cabinet <?php echo $rw['denumire'];?></h3>	
+			<h3>Cabinet <?php echo $rw['cabinet'];?></h3>	
              
                         <form name="muser" method="post" action="" enctype="multipart/form-data">
                         
                      <table width="100%" border="0">
   <tr>
-    <td height="42">Etaj</td>
-    <td><input type="text" name="etaj" id="etaj" value="<?php echo $rw['etaj'];?>" class="form-control"></td>
+    <td height="42">Cabinet</td>
+    <td><input type="text" name="cabinet" id="cabinet" value="<?php echo $rw['cabinet'];?>" class="form-control"></td>
   </tr>
   <tr>
-    <td height="42">Denumire</td>
-    <td><input type="text" name="denumire" id="denumire" value="<?php echo $rw['denumire'];?>" class="form-control"></td>
+    <td height="42">Data</td>
+    <td><input type="text" name="data" id="data" value="<?php echo $rw['data'];?>" class="form-control"></td>
   </tr>
- 
+  <tr>
+    <td height="42">Ora intrare</td>
+    <td><input type="text" name="ora_intrare_a" id="ora_intrare" value="<?php echo $rw['ora_intrare_a'];?>" class="form-control"></td>
+  </tr>
+  <tr>
+    <td height="42">Ora iesire</td>
+    <td><input type="text" name="ora_iesire_a" id="ora_iesire" value="<?php echo $rw['ora_iesire_a'];?>" class="form-control"></td>
+  </tr>
+  <tr>
+  <?php } ?>
+  
+    <td height="42">Asistenta</td>
+    <td>
+        <select class="form-select" name="asistenta"  aria-label="Default select example">
+                                                <option selected></option>
+                                                <?php
+                                                $asistente=mysqli_query($con,"select nume,prenume from asistente order by nume");
+                                                while($row=mysqli_fetch_array($asistente)) {
+                                                    
+                                                ?>
+                                                <option value="<?php echo $row['nume'].' '.$row['prenume'];?>"><?php echo  $row['nume'].' '.$row['prenume']; ?></option>
+                                                <?php }?>
+                                            </select>
+  </tr>
+  
   <tr>
     <td>&nbsp;</td>
     <td height="42">
@@ -88,7 +153,7 @@ $cabinetid=$_GET['id'];
     <td>&nbsp;</td>
   </tr>
 </table>
-<?php } ?>
+              
 </form>
     </div>
     </div>
